@@ -1,0 +1,223 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newcommand{\preferal}[1]{\underset{#1}{\succ}}
+\newcommand{\equivalent}[1]{\underset{#1}{\sim}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+
+\usepackage{fmtcount}
+\usepackage{graphicx}
+\usepackage{courier}
+
+\usepackage[colorlinks=true, citecolor=Red, urlcolor=blue, pdfhighlight =/O]{hyperref}
+%\hypersetup{
+% colorlinks=false,
+% citecolor=Violet,
+% linkcolor=Red,
+% urlcolor=Blue}
+
+
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Multi-preferential consensus parameters setting selection for cognitive wireless sensor networks}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+
+\author{
+\IEEEauthorblockN{
+Rafik Zitouni$^{\ddagger}$ $^{\dagger}$, Clément Duhart$^{\ddagger}$ and Laurent George$^{\ddagger}$ $^{\dagger}$
+}
+\IEEEauthorblockA{
+$^{\ddagger}$ ECE Paris-LACSC Laboratory \\
+37 Quai de Grenelle, 75015, Paris, France\\
+$^{\dagger}$ LISSI / UPEC \\
+120, rue Paul Armangot\\
+94400 Vitry S/Seine, France\\
+Email: \{zitouni, ataman, mathian, lgeorge\}@ece.fr\\}
+}
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+
+\begin{abstract}
+%\boldmath
+TODO 
+\end{abstract}
+
+\begin{IEEEkeywords}
+Cognitive Radio, adaptive modulation, Wireless sensor networks, consensus.
+\end{IEEEkeywords}
+
+
+\section{INTRODUCTION}
+TODO
+
+\section{PROBLEM DEFINITION}
+
+TODO with GLOBAL SCHEMA
+
+\section{MODEL}
+TODO : Global view \\
+
+\subsection{CR network preferences}
+Network of cognitive radio agents $n_i$ is defined with topology G = (V,E) in which each agent only communicates with its neighboring agents $\Upsilon_i = \{j \in V : \{i,j\} \in E\}$ which are inside a range of radius R. Each cognitive radio agents can communicate through several communication profiles $\rho_0, \rho_1 ... \rho_M$ composed of available bandwidth, channel number, etc.
+
+\paragraph*{Communication profile definition  : Add $\rho_j$ definition !}[TODO - Rafik] \\
+
+A profile preference preorder is representative of all node $i$ if for all of them, this preorder is established. Profile preferential preorder of CR communication profile is modelled by Von-Neumann preferential utility [REF].  Metric value of preference preoder is modelled through an inequality of utility function $u^i$ such as in eq \ref{eq-preferential-utility-def}.  
+
+\begin{equation}
+\label{eq-preferential-utility-def}
+\displaystyle
+\forall k, \rho_j \succ \rho_k \Longleftrightarrow \forall i,k,  \rho_j \preferal{i} \rho_k \Longleftrightarrow \forall k, u_j > u_k
+\end{equation}
+
+TODO : OWA et PARETO\\
+
+Based on this definition, node preference preorder must evolved to converge to an aggregated preference preorder which is representative of the set of node preference preorder to verify definition given in eq \ref{eq-preferential-utility-def}. In this paper, the aggregation operator studied is the profile utility average through distributed network average consensus.
+
+\subsection{Distributed utility aggregation}
+Average consensus of preferences is composed of $M$ average consensus problems to determine a representative utility value for each profile $\rho$ to produce an order of profile utility for all CR network by a distributed way. Distributed network consensus problems is solved asymptotically by using gradient-descent algorithm in which $\dot{u_j}$ are the final average consensus value of initial utility of node $i$ for profile $j$ as summarize in eq \ref{eq-consensus-def} (more details about network average consensus can be found in [REF]). 
+
+\begin{equation}
+\label{eq-consensus-def}
+\displaystyle
+\dot{u_j} =  \lim_{t \to +\infty } u_j(t)  =  {1 \over N } \sum_{i=0}^N u_j^i(0)  \Longleftrightarrow \forall i,j || \dot{u}_j - \dot{u}_j^i || < \varepsilon
+\end{equation}
+
+The iterative algorithm of distributed average network consensus is given in eq \ref{eq-consensus-analytic} with its analytic form and in eq \ref{eq-consensus-matrix} with its matrix form and the necessary condition of convergence : $\forall i, W^i < \frac{1}{\Delta}$ with $\Delta = max(\#\Upsilon_i)$.
+
+\begin{equation}
+\label{eq-consensus-analytic}
+\displaystyle
+u_j^i(t+1) = u_j^i(t) - w^i \sum_{k=0}^N[u_j^i(t) - u_j^k(t)]
+\end{equation}
+
+\begin{equation}
+\label{eq-consensus-matrix}
+\displaystyle
+U_j(t+1) = [I-WL]U_j(t)
+\end{equation}
+
+with L the Laplacian of network G defined in eq \ref{eq-consensus-laplacian} in which A is adjacency matrix of graph G and D a diagonal matrix defined as $L_{i,i} = \#\Upsilon_i$ .
+
+\begin{equation}
+\label{eq-consensus-laplacian}
+L = D - A = \left\{
+      \begin{aligned}
+      L_{i,i} &= &\#\Upsilon_i\hspace{2.6cm}\\
+      L_{i,j} &= &\left\{
+                \begin{aligned}
+                -1 \hspace{0.5cm} &if& j \in \Upsilon_i \\
+                 0 \hspace{0.5cm} &else& \\
+                \end{aligned}
+                \right.
+      \end{aligned}
+    \right.
+\end{equation}
+
+By applying network average consensus for each profile preference, each node obtains the same set of average profile aggregated preference utility according to interval error $]- \varepsilon + \dot{u} ; \dot{u} + \varepsilon [$ produced by asymptotic convergence.
+
+\subsection{Robust uniqueness decisions}
+Decision rules allows nodes to choice between profiles according to the aggregated utility of profile preferences estimated by previously presented network average consensus. Nodes must make the same choice and so, decision rules have to be strongly discriminant as defined in eq \ref{eq-decision-discriminant} to allow decisions to be uniqueness. 
+
+\begin{theorem}
+\label{th-preference}
+If only if it exists a profile utility $\dot{u}_j^i$ greater than any other profile utility $\dot{u}_k^i$ for any decision makers $i$ estimated by network average consensus, so that it's ideal average utility value $\dot{u}_j$ is spaced more than $2 \varepsilon$ from any other ideal average utility value $\dot{u}_k $ then this profile is preferred to any other profile by all decision makers. 
+ 
+\begin{equation}
+\label{eq-decision-discriminant}
+\forall i, k, \exists j / \dot{u}_j^i > \dot{u}_k^i \ \& \ || \dot{u}_j - \dot{u}_k|| > 2 \varepsilon \Longleftrightarrow \rho = \rho^i = j
+\end{equation}
+
+\end{theorem}
+
+\begin{proof}
+Network average consensus converge to average value $\dot{u}$ of node initial value $u(0)$ for any network topology if convergence rate of gradient descent algorithm is limited to $\frac{1}{\Delta}$ with $\Delta = \max(\#\Upsilon_i)$ [REF]. Average value $\dot{u}$ is unique by definition, so the set of utility order $u_0(0)^i > ... > u_M(0)^i$ of each nodes $i$ will evolve to an unique average utility order $\dot{u}_k > ... > \dot{u}_l$ according to convergence error $\varepsilon$ which defines an error interval $]- \varepsilon + \dot{u} ; \dot{u} + \varepsilon [$. 
+
+Assume that there exists a node which prefers a profile $j$ different from the other node preferences. This can be happen if and only if, interval error of this preference utility is juxtaposed to an another interval error of another near preference utility :$]-\varepsilon + \dot{u}_j, \dot{u}_j + \varepsilon [ \ \bigcap \ ]-\varepsilon + \dot{u}_k, \dot{u}_k + \varepsilon [ \not = \emptyset $. By rewriting it by using triangle inequality, $ \forall i, \  ||\dot{u}_j - \dot{u}_k|| < ||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i||$. Now, $|| \dot{u}_j - \dot{u}_k|| > 2 \varepsilon$, so $||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i|| > 2 \varepsilon$ must be true. But, $\forall i,l, ||\dot{u}_l - \dot{u}_l^i|| < \varepsilon$ by consensus convergence definition, so it is impossible that $||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i|| > 2 \varepsilon$. If a node has another preference than the other node, its preference utility cannot be spaced from its other preference utility from more than $2 \varepsilon$.
+
+%If interval space between neighbour average utility is enough large, then order is defined  without ambiguous for any nodes and it is unique.
+
+%By using triangle inequality, it is possible to define required interval space between neighbour ideal average utility to define strict order if $]-\varepsilon + \dot{u}_j, \dot{u}_j + \varepsilon [ \ \bigcap \ ]-\varepsilon + \dot{u}_k, \dot{u}_k + \varepsilon [ = \emptyset $ which can be rewritten by : 
+%$ \forall i, \  ||\dot{u}_j - \dot{u}_k|| > ||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i||$ with in worst case $||\dot{u}_k - \dot{u}^i_k|| = ||\dot{u}_j - \dot{u}^i_j|| = \varepsilon$ then $||\dot{u}_j - \dot{u}_k|| > 2 \varepsilon$.
+\end{proof}
+
+\begin{definition}
+\label{def-equivalent}
+Two profiles $\dot{u}_i$ and $\dot{u}_j$ are defined equivalent if their estimated aggregated utility value is inferior than $2 \varepsilon$.
+\end{definition}
+\begin{equation}
+\label{eq-decision-equivalent}
+\rho_i \sim \rho_j  \Longleftrightarrow ||\dot{u}_i - \dot{u}_j|| < 2 \varepsilon 
+\end{equation}
+
+Based on theorem \ref{th-preference} and definition \ref{def-equivalent}, a uniqueness profile decision rule can be defined such as in eq \ref{eq-decision}. Theorem \ref{th-preference} guarantees that it is possible to build a unique aggregated preorder of preferences which is representative of average profile preference utility of all nodes where it exists an interval enough discriminant. Definition \ref{def-equivalent} defined equivalence state if it do not exist.\\
+
+Finally, space U is the set of equivalent best aggregated profile preference utility on which are applied an arbitrary rule to select one unique and common decision $\rho$
+\begin{equation}
+\label{eq-decision}
+\rho = \left\{
+      \begin{aligned}
+      U &\in \mathbb{N} \ / \ j,k \in U \ if \ \forall l,i, \ \rho_j \equivalent{i} \rho_k \preferal{i} \rho_l \\
+     \rho_i &= \min(U)\\
+      \end{aligned}
+    \right.
+\end{equation}
+
+\section{SIMULATION AND RESULTS}
+
+\subsection{Setup}
+
+\subsection{Results}
+
+\subsubsection{Negotiation results on real implementation}
+
+\subsubsection{Time convergence vs CR node number (Mathlab)}
+
+\section{CONCLUSION}
+
+
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{Biblio}
+
+
+
+% that's all folks
+\end{document}
