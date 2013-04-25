@@ -169,8 +169,8 @@
 
 \begin_layout Standard
 \begin_inset Formula $\frac{P_{i}(\gamma_{i})}{\overline{\gamma_{i}}}=\begin{cases}
-\frac{1}{\gamma_{i}^{0}}-\frac{1}{\gamma_{i}} & ,\gamma_{i}\geqslant\gamma_{i}^{0}\\
-0 & ,\gamma_{i}<\gamma_{i}^{0}
+\frac{1}{\gamma_{0}}-\frac{1}{\gamma} & ,\gamma\geqslant\gamma_{i}^{0}\\
+0 & ,\gamma<\gamma_{i}^{0}
 \end{cases}$
 \end_inset
 

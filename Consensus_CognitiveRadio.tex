@@ -40,7 +40,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Multi-preferential consensus parameters selection for cognitive radio}
+\title{Multi-Preferential Consensus Parameters Selection for Cognitive Radio}
 
 
 % author names and affiliations
@@ -86,9 +86,9 @@ Cognitive Radio, adaptive modulation, Wireless networks, consensus.
 \section{INTRODUCTION}
 TODO\\
 
-Cognitive radio. \\
+Recently, the number of the wireless networks applications increases in the same frequency band. The coexistence of multiple wireless transmission technologies leads to degrade their performances. The reciprocal influence is avoided by sharing this resource without prior knowledge. The cognitive radio network proposes to exploit opportunistically the underused electromagnetic spectrum. 
 
-The cognitive radio purposes is to exploit opportunistically the underused electromagnetic spectrum. The spectrum access is a significant problem because it depend on the legally defined by different agency (e.g FCC: Federal Communications Commission) \cite{Haykin2005}. The spectrum licensed is occupied principally by the primary user. the frequency holes is appearance at particular periods of time and specific geographic location when the licensed frequency band is free and not used by that user. The utilization can be improved by allowing to the secondary user a temporarily occupation of the spectrum holes. The Dynamic Spectrum Access (DSA) networks is the secondary opportunistic user of the spectrum without interfering with the primary user \cite{Liu2011}. The cognitive radio with an efficient DSA is implemented on the reconfigurable Software Defined Radio (SDR) \cite{Mitola1993}. The optimal performances of the secondary user is obtained by the capability to adapt to the surrounding environment. This environment is characterized by the sensed informations, such as transmission frequency, bandwidth, power consumption, noise power, modulation, etc \cite{Liu2011}. 
+The spectrum access is a significant problem because it depend on the legislation defined by different institutions (e.g FCC: Federal Communications Commission) \cite{Haykin2005}. The spectrum licensed is occupied principally by the primary user. The frequency holes appear at particular periods of time and specific geographic location when the licensed frequency band is free and not used by that user. The utilization can be improved by allowing to the secondary user a temporarily occupation of the spectrum holes. The Dynamic Spectrum Access (DSA) networks is the secondary opportunistic user of the spectrum without interfering with the primary user \cite{Liu2011}. The cognitive radio with an efficient DSA is implemented on the reconfigurable Software Defined Radio (SDR) \cite{Mitola1993}. The optimal performances of the secondary user is obtained by the capability to adapt to the surrounding environment. This environment is characterized by the sensed informations, such as transmission frequency, bandwidth, number of nodes, noise power, modulation, etc \cite{Liu2011}. 
 
 
 
@@ -96,15 +96,18 @@ Adaptive modulation and channel to improve data rate. \\
 
 Nodes consensus for wireless transmission improvement.\\
 
+Contribution and related work. \\
+
 \section{RELATED WORKS}
 
 
 TODO
 
-\section{PROBLEM DEFINITION}
-The purpose of our work is to achieve a hight network throughput or spectrum efficiency with a selection of the appropriates parameters. The efficiency is measured by the utility function which is defined to carry out a balance between the power consumption, the modulation technique and the channel quality with existence of primary and secondary users.
+\section{SYSTEM MODEL}
+The purpose of our work is to achieve a hight data rate or spectrum efficiency in the cognitive network with a selection of the appropriates parameters or settings. The aggregation of this parameters gives the utility function which is defined to carry out a balance between the power transmission, the modulation type and the channel quality with existence of primary and secondary users.
 
-We start our problem formulation by expressing the Signal Interference Noise Ratio (SINR) in terms of the power transmission, the gain and the thermal noise. Let \textit{N} denotes a set of cochannel labelled  by the integers $i=1,2 \cdots,N$. Where $G_{ij}$ defines the path gain from node $j$ to node $i$. $P_{i}$ indicates the transmission power of node $i$. The signal is represented when $i=j$, otherwise, this is interference. The SINR of node $i$, $\gamma_{i}$ is given by :
+\subsection{PARAMETER DEFINITION}
+We start our system model by the mathematical definition of the transmission parameters. The first parameter is the expression of the Signal Interference Noise Ratio (SINR) in terms of the power transmission, the gain and the thermal noise. Let \textit{N} denotes a set of cochannel labelled  by the integers $i=1,2 \cdots,N$. Where $G_{ij}$ defines the path gain from node $j$ to node $i$. $P_{i}$ indicates the transmission power of node $i$. The signal is represented when $i=j$, otherwise, this is interference. The SINR of node $i$, $\gamma_{i}$ is given by :
  
 \begin{equation}
 \label{eq-sinr}
@@ -117,34 +120,38 @@ We start our problem formulation by expressing the Signal Interference Noise Rat
 
 The value of $n_{i}$ denotes the receiver thermal noise power. The total interference and thermal noise are gathered in $I_{i}$.\\
 
-The channel capacity  $C_{i}$ of channel is modelled as function of the frequency bandwidth $\omega$ and  $\gamma_{i}(P_{i})$   \cite{Shannon1948}. 
-\begin{equation}
-\label{eq-capacity_shannon}
-C_{i}=\intop_{0}^{\infty}
- \omega\log_{2}(1+\gamma_{i})Pr(\gamma_{i})d
- \gamma_{i}
- \end{equation}
-
-Also, the capacity can be expressed as function of the adjusted transmit power $P_{i}(\gamma_(i))$ to the fading channel \cite{Goldsmith1997}.The parameter $P_{i}(\gamma)$ is the adaptive power relative to $\gamma$, subject to the average power constraint $\overline{P_{i}}$.
-
-\begin{equation}
-\label{eq-capacity_Goldsmith}
-C_{i}=\underset{\int P_{i}(\gamma_{i})Pr(\gamma_{i})d\gamma_{i}=\bar{P_{i}}}{\max}\intop_{0}^{\infty}\omega\log_{2}\left(1+\frac{P_{i}(\gamma_{i})\gamma_{i}}{\overline{P_{i}}}\right)Pr(\gamma_{i})d\gamma_{i}
- \end{equation}
- 
-To maximize the channel capacity in (\ref{eq-capacity_Goldsmith}), the power adaptation is given by : 
+The channel capacity  $C_{i}$ is modelled as function of the frequency bandwidth $\omega_{i}$ and  $\gamma_{i}(P_{i})$   \cite{Shannon1948}. 
+%\begin{equation}
+%\label{eq-capacity_shannon}
 \[
-\frac{P_{i}(\gamma_{i})}{\overline{\gamma_{i}}}=\begin{cases}
-\frac{1}{\gamma_{i}^{0}}-\frac{1}{\gamma_{i}} & ,\gamma_{i}\geqslant\gamma_{i}^{0}\\
-0 & ,\gamma_{i}<\gamma_{i}^{0}
-\end{cases}
+C_{i}=\intop_{0}^{\infty}
+ \omega_{i}\log_{2}(1+\gamma_{i}(P_{i}))Pr(\gamma_{i})d
+ \gamma_{i}(P_{i})
 \]
-Where $\gamma_{i}^{0}$ is some "cutoff" value, when  $\gamma_{i}^{t}
- <\gamma_{i}^{0}$ at time $t$, then no power is allocated to the $i$th channel. The variation of $\gamma$ in the time depend on the probability distribution $Pr$. In the case of the favorable channel more power is allocated for transmission. In contrast, less power will be transmitted. The channel is not used if the value of $\gamma_{i}$ drops down below $\gamma_{0}$.
- 
-The number of bits transmitted within each symbol is restricted to a finite number of values. With $M$-QAM The constellation size is restricted to $M=2^{j}, j=1,2,...,J$, making the bits per symbol equal to one of a small set of values. The data rate of one channel is defined here as the number of bits that can be successfully received within each transmitted symbol. However, the Bit Error Rate $BER$ affect the data rate and it can be approximated for each specific modulation (e.g MPSK, $M$-QAM) \cite{Cheng2008}. We restrict our work to MQAM signal constellations. For fixed $M$ value and symbol period $T$, the data rate $R$ of MQAM modulation 
+% \end{equation}
 
-\cite{Goldsmith1998} family is equal to:
+Also, the capacity can be expressed as function of the adjusted transmit power $P_{i}(\gamma_{i})$ to the fading channel \cite{Goldsmith1997}.The parameter $P_{i}(\gamma_{i})$ is the adaptive power relative to $\gamma_{i}$, subject to the average power constraint $\overline{P_{i}}$.
+\begin{align}
+%\begin{equation}
+\label{eq-capacity_Goldsmith}
+C_{i}=\underset{\int P_{i}(\gamma_{i})Pr(\gamma_{i})d\gamma_{i}=\bar{P_{i}}}{\max}\intop_{0}^{\infty}\omega_{i}\log_{2}\left(1+\frac{P_{i}(\gamma_{i})\gamma_{i}}{\overline{P_{i}}}\right)\\
+Pr(\gamma_{i})d\gamma_{i}(P_{i}) \nonumber
+%\end{equation}
+\end{align}
+ 
+To maximize the channel capacity in (\ref{eq-capacity_Goldsmith}), the transmit power adaptation is given as follows : 
+\begin{equation}
+\label{Power_noise}
+\frac{P_{i}(\gamma_{i})}{\overline{\gamma_{i}}}=\begin{cases}
+\frac{1}{\gamma_{i}^{0}(P_{i})}-\frac{1}{\gamma_{i}(P_{i})} & ,\gamma_{i}(P_{i})\geqslant\gamma_{i}^{0}(P_{i})\\
+0 & ,\gamma_{i}(P_{i})<\gamma_{i}^{0}(P_{i})
+\end{cases}
+\end{equation}
+Where $\gamma_{i}^{0}(P_{i})$ is some "cutoff" value, when  $\gamma_{i}^{t}(P_{i})
+ <\gamma_{i}^{0}(P_{i})$ at time $t$, then no power is allocated to the $i$th channel. The variation of $\gamma(P_{i})$ in the time depend on the probability distribution $Pr$. In the case of the favorable channel more power is allocated for transmission. In contrast, less power will be transmitted. The channel is not used if the value of $\gamma_{i}(P_{i})$ drops down below $\gamma_{0}(P_{i})$.
+ 
+The number of bits transmitted within each symbol is restricted to a finite number of values. With $M$-QAM The constellation size is restricted to $M=2^{j}, j=1,2,...,J$, making the bits per symbol equal to one of a small set of values. The data rate of one channel is defined as the number of bits that can be successfully received within each transmitted symbol. However, the Bit Error Rate $BER$ affect the data rate and it can be approximated for each specific modulation (e.g MPSK, $M$-QAM) \cite{Cheng2008}. We restrict our work to MQAM signal constellations. For fixed $M$ value and symbol period $T$, the data rate $R$ of MQAM modulation \cite{Goldsmith1998} family is equal to:
+
 \[R=[\log_{2}M_{j}-1]/T
 \]
 
@@ -155,25 +162,49 @@ BER\approx0.2\exp\left[\frac{-1.5\gamma}{(M-1)}\frac{P_{i}(\gamma)}{\overline{P_
 \end{equation}
  
 
-To maintain a fixed $BER$, in the equation (\ref{eq-M}), we can adjust $M$ and $S(\gamma)$
+To maintain a fixed $BER$, in the equation \ref{eq-BER}, we can adjust $M$ and $P_{i}(\gamma)$
 
-The adaptive modulation is used to maintain a constant $BER$ and to increase the spectral efficiency (bis/s/Hz) when wireless channel quality changes. The hight spectral efficiency average is obtained by transmitting at hight data rate when channel conditions are favorable and low data rate when the channel degrades. From (\ref{eq-BER}), the constellation size is expressed in terms of  $\gamma_{i}$ fade level and the transmit power $p_{i}$ adapted to the interference. 
+The adaptive modulation is used to maintain a constant $BER$ and to increase the spectral efficiency when wireless channel quality changes. From the expression \ref{eq-BER}, the constellation size is expressed in terms of  $\gamma_{i}$ fade level and the transmit power $P_{i}$ adapted to the interference. 
+
 \begin{equation}
 \label{eq-M}
-M(\gamma_{i})=1+\frac{1.5\gamma_{i}}{-\ln(5BER)}
+M(\gamma_{i})=1+\frac{1.5\gamma_{i}(P_{i})}{-\ln(5BER)}
  \frac{P_{i}(\gamma_{i})}{\overline{P_{i}}}
 \end{equation}
 
-Expression of frequency efficiency 
+The spectral efficiency is defined as the bit rate per unit hertz (bis/s/Hz), as follow. 
+\begin{equation}
+\label{efficiency}
+E_{i} = C_{i}/\omega_{i}
+\end{equation}
+
+
+The maximum spectral efficiency average is obtained by transmitting at hight data rate when channel conditions are favorable and low data rate when the channel degrades. 
  
-From (\ref{eq-sinr}) and (\ref{eq-capacity})
+\subsection{PARAMETER INTERACTION}
  
+\begin{figure*}[!t]
+\begin{center}
+\begin{tabular}{c}
+\label{fig-1}
+\includegraphics[height=8cm,width=15cm]{Figures/fig-1bis.eps}\\
+\end{tabular}
+\caption{Parameter interaction} \label{fig-1}
+\end{center}
+\end{figure*}
+ 
+The schema shown in the Figure \ref{fig-1} presents the $n$ possible networks sharing the same frequency band on the number of the channels. One network is cognitive with adaptive setting and the other networks are fixed and defined by the standard specifications. The schematic rectangles and circles contain respectively the fixed and dynamic parameters, while the arcs are the influence relationships among each other. 
 
+The number of channels is defined for each network in the PHY specifications (e.g IEEE 802.15.4 and IEEE 802.11 have respectively 16 channels and 13 channels in the ISM frequency band). The number of nodes in the network is fixed for period of time. The high gain allows the transmitter to increase the signal strength and permits the receiver to capture the more signal. The thermal noise is approximately white and nearly constant throughout the frequency spectrum. Each channel is defined by the available spectrum or a signal bandwidth. All these environmental and physical parameters affect the SINR and the BER transmission characteristic. 
 
+The spectrum efficiency $E_{i}$ is improved by taking in consideration the signal bandwidth $\omega_{i}$ and the channel capacity $C_{i}$, since it is defined as the report between the channel capacity and signal bandwidth. In the formula (\ref{eq-capacity_Goldsmith}), the channel capacity increase at the same time as the power transmission $P_{i}(\gamma_{i})$ adapted to the noise distribution $Pr(\gamma_{i})$. The power consumption can be minimised with the adapted modulation type. The power transmission and channel selection can be adjusted interactively according to the SINR. The measurement of BER and SINR depend on the settings interactions. However, the objective of the parameters settings is to find a tradeoff between the power consumption, the signal bandwidth or channel selection to achieve the spectrum efficiency.
 
-TODO with GLOBAL SCHEMA
+\subsection{PARAMETER AGGREGATION}
+The nodes in the cognitive radio network are the cognitive agent with different profiles. The parameters to choose by the agents are the transmission power, the modulation type and the number of channel. The one to one profile is the communication conditions between neighbouring nodes in one hop transmission. Two nodes should have the same modulation type and channel number to communicate. The Automatic Repeat Request (ARQ) transmission protocol is used to insure the neighbouring synchronisation use of these parameters. The individual nodes setting is the power consumption, which can be controlled without coordination. 
+   
+To insure a hight spectrum efficiency with tradeoff 
 
-\section{SYSTEME MODEL}
+\section{CONSENSUS ALGORITHM}
 TODO : Global view \\
 
 \subsection{CR network preferences}
