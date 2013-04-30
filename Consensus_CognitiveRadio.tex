@@ -5,6 +5,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{epstopdf} % pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex
 
 \newcommand{\preferal}[1]{\underset{#1}{\succ}}
 \newcommand{\equivalent}[1]{\underset{#1}{\sim}}
@@ -18,6 +20,8 @@
 \usepackage{fmtcount}
 \usepackage{graphicx}
 \usepackage{courier}
+
+\graphicspath{{Figures/}{img/}}
 
 \usepackage[colorlinks=true, citecolor=Red, urlcolor=blue, pdfhighlight =/O]{hyperref}
 %\hypersetup{
@@ -34,6 +38,9 @@
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
+
+\usepackage[acronym,toc]{glossaries}
+\newacronym{NAC}{NAC}{Network Average Consensus}
 
 
 \begin{document}
@@ -183,15 +190,10 @@ The maximum spectral efficiency average is obtained by transmitting at hight dat
  
 \subsection{PARAMETER INTERACTION}
  
-\begin{figure*}[!t]
-\begin{center}
-\begin{tabular}{c}
-\label{fig-1}
-\includegraphics[height=8cm,width=15cm]{Figures/fig-1bis.eps}\\
-\end{tabular}
-\caption{Parameter interaction} \label{fig-1}
-\end{center}
-\end{figure*}
+\begin{figure}[h]
+   \includegraphics[width=9cm]{fig-1bis.eps}\\
+   \caption{Parameter interaction} \label{fig-1}
+\end{figure}
  
 The schema shown in the Figure \ref{fig-1} presents the $n$ possible networks sharing the same frequency band on the number of the channels. One network is cognitive with adaptive setting and the other networks are fixed and defined by the standard specifications. The schematic rectangles and circles contain respectively the fixed and dynamic parameters, while the arcs are the influence relationships among each other. 
 
@@ -225,7 +227,7 @@ TODO : OWA et PARETO\\
 Based on this definition, node preference preorder must evolved to converge to an aggregated preference preorder which is representative of the set of node preference preorder to verify definition given in eq \ref{eq-preferential-utility-def}. In this paper, the aggregation operator studied is the profile utility average through distributed network average consensus.
 
 \subsection{Distributed utility aggregation}
-Average consensus of preferences is composed of $M$ average consensus problems to determine a representative utility value for each profile $\rho$ to produce an order of profile utility for all CR network by a distributed way. Distributed network consensus problems is solved asymptotically by using gradient-descent algorithm in which $\dot{u_j}$ are the final average consensus value of initial utility of node $i$ for profile $j$ as summarize in eq \ref{eq-consensus-def} (more details about network average consensus can be found in [REF]). 
+Average consensus of preferences is composed of $M$ average consensus problems to determine a representative utility value for each profile $\rho$ to produce an order of profile utility for all CR network by a distributed way. Distributed network consensus problems is solved asymptotically by using gradient-descent algorithm in which $\dot{u_j}$ are the final average consensus value of initial utility of node $i$ for profile $j$ as summarize in eq \ref{eq-consensus-def} (more details about network average consensus can be found in \cite{Ren2005}). 
 
 \begin{equation}
 \label{eq-consensus-def}
@@ -284,11 +286,6 @@ If only if it exists a profile utility $\dot{u}_j^i$ greater than any other prof
 Network average consensus converge to average value $\dot{u}$ of node initial value $u(0)$ for any network topology if convergence rate of gradient descent algorithm is limited to $\frac{1}{\Delta}$ with $\Delta = \max(\#\Upsilon_i)$ [REF]. Average value $\dot{u}$ is unique by definition, so the set of utility order $u_0(0)^i > ... > u_M(0)^i$ of each nodes $i$ will evolve to an unique average utility order $\dot{u}_k > ... > \dot{u}_l$ according to convergence error $\varepsilon$ which defines an error interval $]- \varepsilon + \dot{u} ; \dot{u} + \varepsilon [$. 
 
 Assume that there exists a node which prefers a profile $j$ different from the other node preferences. This can be happen if and only if, interval error of this preference utility is juxtaposed to an another interval error of another near preference utility :$]-\varepsilon + \dot{u}_j, \dot{u}_j + \varepsilon [ \ \bigcap \ ]-\varepsilon + \dot{u}_k, \dot{u}_k + \varepsilon [ \not = \emptyset $. By rewriting it by using triangle inequality, $ \forall i, \  ||\dot{u}_j - \dot{u}_k|| < ||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i||$. Now, $|| \dot{u}_j - \dot{u}_k|| > 2 \varepsilon$, so $||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i|| > 2 \varepsilon$ must be true. But, $\forall i,l, ||\dot{u}_l - \dot{u}_l^i|| < \varepsilon$ by consensus convergence definition, so it is impossible that $||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i|| > 2 \varepsilon$. If a node has another preference than the other node, its preference utility cannot be spaced from its other preference utility from more than $2 \varepsilon$.
-
-%If interval space between neighbour average utility is enough large, then order is defined  without ambiguous for any nodes and it is unique.
-
-%By using triangle inequality, it is possible to define required interval space between neighbour ideal average utility to define strict order if $]-\varepsilon + \dot{u}_j, \dot{u}_j + \varepsilon [ \ \bigcap \ ]-\varepsilon + \dot{u}_k, \dot{u}_k + \varepsilon [ = \emptyset $ which can be rewritten by : 
-%$ \forall i, \  ||\dot{u}_j - \dot{u}_k|| > ||\dot{u}_j - \dot{u}_j^i || + ||\dot{u}_k - \dot{u}_k^i||$ with in worst case $||\dot{u}_k - \dot{u}^i_k|| = ||\dot{u}_j - \dot{u}^i_j|| = \varepsilon$ then $||\dot{u}_j - \dot{u}_k|| > 2 \varepsilon$.
 \end{proof}
 
 \begin{definition}
@@ -313,7 +310,35 @@ Finally, space U is the set of equivalent best aggregated profile preference uti
     \right.
 \end{equation}
 
+\subsection{Protocols}
+
+\subsubsection{Assumptions}
+
+
+\begin{itemize}
+   \item It exist a radio cycling synchronization mechanisms
+\end{itemize}
+
+\subsubsection{Consensus multiplexing} 
+lkj
+
+\begin{figure}[h!]
+   \centering
+   \includegraphics[width=9cm]{chronogramme-global}\\
+   \caption{\label{fig:chronogramme} blabla }
+\end{figure}
+
+As previously demonstrated, $\rho$ is the best profile chose by all node and it is unique by using proposal consensus algorithm. \gls{NAC} requires an important number of iterations as discussed in section \ref{sec:results}. But, this can be reduced by multiplexing the set of \gls{NAC} due to their independence one to one. Consequently, multiplexing of this estimation process can be realized simultaneously and so, a lot of RF exchanges can be saved. At each iteration of \gls{NAC}, each node broadcasts one after the other its current estimation value of profiles utility to its neighbours as illustrated on Figure \ref{fig:chronogramme}.
+
+\begin{figure*}[!h]
+   \centering
+   \includegraphics[width=15cm]{chronogramme}\\
+   \caption{\label{fig:chronogramme} blabla }
+\end{figure*}
+ 
+\newpage
 \section{SIMULATION AND RESULTS}
+\label{sec:results}
 
 \subsection{Setup}
 
@@ -322,6 +347,13 @@ Finally, space U is the set of equivalent best aggregated profile preference uti
 \subsubsection{Negotiation results on real implementation}
 
 \subsubsection{Time convergence vs CR node number (Mathlab)}
+
+\subsubsection{Properties}
+\begin{itemize}
+   \item Reinforcement leader
+   \item Exclusion by negation
+   
+\end{itemize}
 
 \section{CONCLUSION}
 
